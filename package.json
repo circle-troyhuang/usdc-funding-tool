@@ -1,0 +1,28 @@
+{
+  "name": "usdc-funding-tool",
+  "version": "2.0.0",
+  "description": "Multi-chain testnet USDC funding tool using Circle's Smokebox API",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && npm install && npm run build",
+    "install-all": "npm install && cd client && npm install"
+  },
+  "keywords": ["usdc", "circle", "funding", "testnet", "multi-chain"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
