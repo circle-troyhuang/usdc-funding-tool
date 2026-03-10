@@ -1,14 +1,19 @@
-# Production image with pre-built client and pre-installed deps
+# Stage 1: Build React client
+FROM node:18-slim AS build
+WORKDIR /app/client
+COPY client/package.json client/package-lock.json* ./
+RUN npm install
+COPY client/ ./
+RUN npm run build
+
+# Stage 2: Production server
 FROM node:18-slim
 WORKDIR /app
-
 RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
-
-# Copy server deps, server code, and pre-built React client
-COPY node_modules/ ./node_modules/
-COPY package.json ./
+COPY package.json package-lock.json* ./
+RUN npm install --omit=dev
 COPY server/ ./server/
-COPY client/build/ ./client/build/
+COPY --from=build /app/client/build ./client/build
 
 EXPOSE 4000
 
