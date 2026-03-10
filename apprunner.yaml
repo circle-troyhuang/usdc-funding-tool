@@ -1,0 +1,16 @@
+version: 1.0
+runtime: nodejs18
+build:
+  commands:
+    build:
+      - npm install
+      - cd client && npm install && npm run build && cd ..
+run:
+  command: node server/index.js
+  network:
+    port: 4000
+  env:
+    - name: CIRCLE_API_URL
+      value: "https://api-smokebox.circle.com/v1"
+    - name: CIRCLE_WALLET_ID
+      value: "1000659044"

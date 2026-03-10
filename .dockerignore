@@ -1,6 +1,6 @@
-node_modules
 client/node_modules
-client/build
+client/src
+client/public
 .env
 .git
 .gitignore

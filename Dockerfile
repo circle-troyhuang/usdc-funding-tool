@@ -1,18 +1,14 @@
-# Stage 1: Build React client
-FROM node:18-alpine AS build
-WORKDIR /app/client
-COPY client/package.json client/package-lock.json* ./
-RUN npm ci
-COPY client/ ./
-RUN npm run build
-
-# Stage 2: Production server
-FROM node:18-alpine
+# Production image with pre-built client and pre-installed deps
+FROM node:18-slim
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
+
+# Copy server deps, server code, and pre-built React client
+COPY node_modules/ ./node_modules/
+COPY package.json ./
 COPY server/ ./server/
-COPY --from=build /app/client/build ./client/build
+COPY client/build/ ./client/build/
 
 EXPOSE 4000
 
